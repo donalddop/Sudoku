@@ -1,5 +1,4 @@
 import pygame
-from pygame.locals import *
 from random import sample, choice
 
 class Board:
@@ -13,7 +12,7 @@ class Board:
         self.width = width
         self.win = win
         self.squares = [[Square(0, row, col, height, width) for row in range(rows)] for col in range(cols)]
-        self.generate_sudoku(61)
+        self.generate_sudoku(78)
         self.selected = None
         self.state = []
         self.update_state()
@@ -30,11 +29,12 @@ class Board:
             for row in range(self.rows):
                 for col in range(self.cols):
                     self.squares[row][col].set(self.state[row][col])
-            while(n_empty != empty_squares):
+            while n_empty != empty_squares:
                 row = choice(range(9))
                 col = choice(range(9))
-                self.squares[row][col].set(0)
-                empty_squares += 1
+                if self.squares[row][col].value != 0:
+                    self.squares[row][col].set(0)
+                    empty_squares += 1
         self.update_state()
 
     def update_state(self):
@@ -177,11 +177,11 @@ class Square:
         if self.value != 0:
             fnt = pygame.font.SysFont("comicsans", 40)
             im = fnt.render(str(self.value), 1, (0, 0, 0))
-            win.blit(im, (x + dif/3, y + dif/3))
+            win.blit(im, (x + dif/3, y))
         if self.temp != 0:
             fnt = pygame.font.SysFont("comicsans", 20)
             im = fnt.render(str(self.temp), 1, (0, 0, 0))
-            win.blit(im, (x + dif/3, y + dif/3))
+            win.blit(im, (x + dif/3, y))
         if self.selected:
             pygame.draw.rect(win, (0, 255, 255), (x, y, dif, dif), 4)
 
@@ -194,7 +194,7 @@ class Square:
         if self.value != 0:
             pygame.draw.rect(win, (255, 255, 255), (x, y, dif, dif), 0)
             im = fnt.render(str(self.value), 1, (0, 0, 0))
-            win.blit(im, (x + dif/3, y + dif/3))
+            win.blit(im, (x + dif/3, y))
         if current_path:
             pygame.draw.rect(win, (0, 255, 0), (x, y, dif, dif), 3)
         else:

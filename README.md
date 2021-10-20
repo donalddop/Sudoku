@@ -1,4 +1,4 @@
-# Sudoku Solver
+# Programming project: Sudoku Solver
 
 This project was an excercise in the following programming subjects:
 - Depth-first search and backtracking
